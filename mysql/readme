@@ -1,0 +1,8 @@
+1. Install MySQL on macOS
+
+Install MySQL using Homebrew: Run the following command to install MySQL: brew install mysql
+Start the MySQL Service: Start the MySQL server using: brew services start mysql
+Set the Root Password: Secure the MySQL installation and set the root password by running: mysql_secure_installation
+Connect to MySQL: Connect to MySQL by typing: mysql -u root -p
+
+2. Install MySQL Extension in VS Code
