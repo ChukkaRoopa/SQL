@@ -84,6 +84,8 @@ SELECT name, Employeeid FROM Employee WHERE Employeeid >= 4;
 -- Select with group by clause
 SELECT name, Employeeid FROM Employee GROUP BY name, Employeeid;
 
+SELECT name, Department,SUM(Salary), COUNT(*) FROM Employee GROUP BY name, Department;
+
 -- Select with having clause
 SELECT Department, SUM(Salary) 
 FROM Employee 
@@ -97,6 +99,14 @@ ORDER BY Salary DESC;
 SELECT * FROM Employee
 ORDER BY Salary ASC;
 
+-- order by multiple coloumns (sort by salary and if having same salary, then sort by using name)
+SELECT * FROM Employee
+ORDER BY Salary DESC, Name ASC;
+
+-- Order by column number instead of name (2 indicate, it sorted by column number 2)
+SELECT * FROM Employee
+ORDER BY 2;
+
 -- Limit Clause
 SELECT * FROM Employee
 WHERE Salary > 600000
@@ -108,6 +118,10 @@ LIMIT 2;
 -- OFFSET 2 means, the initial 2 rows are excluded or avoided. 
 SELECT * FROM Employee
 LIMIT 2 offset 4;
+
+-- offset 2 values and limit to 4
+SELECT * FROM Employee
+LIMIT 2,4;
 
 -- Select last
 /* By sorting the data (it is mandatory to use the column ID or any column which is unique and sequentially 
@@ -183,6 +197,80 @@ WHERE EmpID IN (4,5);
 SELECT * FROM Employee_details
 WHERE EmpID <> 4;
 
+-- null
+SELECT * FROM Employee_details
+WHERE Phone_Number IS NULL;
+
+-- Union operator
+-- only unique values from table 1 and table2
+SELECT Name FROM Employee_details
+UNION
+SELECT Name FROM Employee;
+
+-- duplicate values also
+SELECT Name FROM Employee_details
+UNION ALL
+SELECT Name FROM Employee;
+
+-- Union using where clause
+SELECT Name FROM Employee_details
+WHERE Name = "Roopa"
+UNION ALL
+SELECT Name FROM Employee
+WHERE Name = "Manohar";
+
+-- except clause not supported in mysql
+
+-- All
+SELECT * FROM Employee
+WHERE Salary > ALL (SELECT Salary FROM Employee WHERE Department = 'Webex');
+
+-- Any
+SELECT * FROM Employee
+where Salary = ANY (SELECT Salary FROM Employee WHERE Department = "Webex");
+
+-- intersect statement (Return the rows common to both the select statements)
+SELECT * FROM SubTable
+INTERSECT
+SELECT * FROM Employee_details;
+
+-- Exists statement
+SELECT Name FROM Employee_details
+WHERE EXISTS (SELECT Name FROM Employee_details WHERE Employee_details.EmpID = 3);
+
+-- Case Statement
+SELECT Name, Salary, 
+CASE
+    WHEN Salary > 800000 THEN "Salary is high"
+    WHEN Salary BETWEEN 600000 AND 800000 THEN "Salary is OK"
+    ELSE "Salary is low"
+END AS SalaryText
+FROM Employee_details;
+
+-- Case statement with order by clause
+Select Name, Department
+FROM Employee
+ORDER BY
+(CASE
+    WHEN Department = 'Webex' THEN Department
+    ELSE Name
+END);
+
+-- Aggregate functions
+SELECT COUNT(*) AS Total_employees FROM Employee_details;
+SELECT AVG(Salary) AS Avg_salary FROM Employee_details;
+SELECT MIN(Salary) AS Min_salary FROM Employee_details;
+SELECT MAX(Salary) AS Max_salary FROM Employee_details;
+SELECT SUM(Salary) AS Total_salary FROM Employee_details;
+
+-- Data Constraints
+-- Not Null
+CREATE TABLE Data_constaints(
+    EmpID INT PRIMARY KEY NOT NULL,
+    Name VARCHAR(50) NOT NULL,
+    Department VARCHAR(50)
+);
+DESCRIBE Data_constaints;
 
 
 
