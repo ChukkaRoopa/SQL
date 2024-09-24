@@ -264,13 +264,71 @@ SELECT MAX(Salary) AS Max_salary FROM Employee_details;
 SELECT SUM(Salary) AS Total_salary FROM Employee_details;
 
 -- Data Constraints
--- Not Null
+-- Not Null, unique, check, default, primary key, foreign key
+-- primary key = Not null + unique
+-- Forign key is a field or cloumn points to primary key of other table
 CREATE TABLE Data_constaints(
-    EmpID INT PRIMARY KEY NOT NULL,
-    Name VARCHAR(50) NOT NULL,
-    Department VARCHAR(50)
+    RollNo INT PRIMARY KEY,
+    First_Name VARCHAR(50) DEFAULT "New Student",
+    EmpID INT(4) UNIQUE,
+    cid INT(2),
+    FOREIGN KEY(cid) REFERENCES Programming(cid),
+    Age INT(3) CHECK (Age >= 18),
+    Department VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE Programming(
+    cid INT(2) PRIMARY KEY,
+    Programming_lang VARCHAR(10)
+);
+
 DESCRIBE Data_constaints;
+
+-- Joins
+-- Join combines rows or data from 2 or more tables based on the common field between them
+
+-- join operation or inner join are same. (create the result-set by combining all rows from both the tables)
+Select ed.Employeeid, ed.name, ed.Department, ed.Salary, ed.Phone_Number, se.course
+FROM Employee_details ed
+JOIN SubTable_employee se 
+ON ed.Employeeid = se.Employeeid;
+
+Select ed.Employeeid, ed.name, ed.Department, ed.Salary, ed.Phone_Number, se.course
+FROM Employee_details ed
+INNER JOIN SubTable_employee se 
+ON ed.Employeeid = se.Employeeid;
+
+-- Left join
+Select ed.Employeeid, ed.name, ed.Department, ed.Salary, ed.Phone_Number, se.course
+FROM Employee_details ed
+LEFT JOIN SubTable_employee se 
+ON ed.Employeeid = se.Employeeid;
+
+-- right join
+Select ed.Employeeid, ed.name, ed.Department, ed.Salary, ed.Phone_Number, se.course
+FROM Employee_details ed
+RIGHT JOIN SubTable_employee se 
+ON ed.Employeeid = se.Employeeid;
+
+-- self join (a self join is a regular join that is used to join a table with itself)
+CREATE TABLE selfjoin(
+    employee_id INT PRIMARY KEY, 
+    employee_name VARCHAR(50), 
+    manager_id INT
+);
+INSERT INTO selfjoin (employee_id, employee_name, manager_id)
+VALUES  (1, 'Zaid', 3),  
+        (2, 'Rahul', 3),  
+        (3, 'Raman', 4),  
+        (4, 'Kamran', NULL),  
+        (5, 'Farhan', 4);
+
+SELECT e.employee_name, m.employee_name
+FROM selfjoin e
+JOIN selfjoin m
+ON e.manager_id = m.employee_id;
+
+
 
 
 
