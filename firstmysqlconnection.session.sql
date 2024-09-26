@@ -328,23 +328,80 @@ FROM selfjoin e
 JOIN selfjoin m
 ON e.manager_id = m.employee_id;
 
+-- cross join
+-- CROSS JOIN returns a combination of each row in the left table paired with each row in the right table
+SELECT * FROM Employee_details
+CROSS JOIN SubTable_employee;
 
+-- update joins
+UPDATE Employee_details ed
+INNER JOIN SubTable_employee se 
+ON ed.Employeeid = se.Employeeid
+SET ed.Department = se.course
+WHERE ed.Employeeid IN (1,2);
 
+-- delete joins
+DELETE se
+FROM SubTable_employee se
+INNER JOIN Employee_details ed
+ON ed.Employeeid = se.Employeeid
+WHERE se.Employeeid = 1;
 
+-- Date and time functions
+-- NOW() - return current date and time
+SELECT NOW();
 
+-- CURDATE() - returns current date
+SELECT CURDATE();
 
+-- CURTIME() - returns current time
+SELECT CURTIME();
 
+-- Create table
+Create table datetime_fun (
+    id INT,
+    name VARCHAR(10),
+    Birthtime DATETIME(3)
+);
 
+INSERT INTO datetime_fun
+values (1, "Roopa", "2001-06-30 16:23:15.891");
 
+-- DATE()
+SELECT name, DATE(Birthtime) FROM datetime_fun;
 
+-- EXTRACT() - returns a single part of date/time
+SELECT name, EXTRACT(DAY FROM Birthtime) FROM datetime_fun;
 
+SELECT name, EXTRACT(MINUTE FROM Birthtime) FROM datetime_fun;
 
+SELECT name, EXTRACT(SECOND FROM Birthtime) FROM datetime_fun;
 
+SELECT name, EXTRACT(MICROSECOND FROM Birthtime) FROM datetime_fun;
 
+-- DATE_ADD() -  Adds a specified time interval to a date.
+SELECT name, DATE_ADD(Birthtime, INTERVAL 1 YEAR) FROM datetime_fun; 
 
+SELECT name, DATE_ADD(Birthtime, INTERVAL 1 HOUR) FROM datetime_fun; 
 
+-- DATE_SUB()
+SELECT name, DATE_SUB(Birthtime, INTERVAL 1 YEAR) FROM datetime_fun; 
 
+-- DATEDIFF() -  Returns the number of days between two dates. 
+SELECT DATEDIFF('2001-06-30', '2002-06-30');
 
+-- DATEFORMAT()
+SELECT DATE_FORMAT('2001-06-30 16:23:15.891', '%Y-%m-%d %H:%i:%s');
 
+SELECT DATE_FORMAT('2001-06-30', '%M %d, %Y')
 
+-- Working with JSON in SQL
 
+SET @jsonData = '{
+"Information": 
+  {"SchoolDetails": 
+     [{"Name": "VidhyaMandhir"}, {"Name": "Chettinad"}, {"Name":"PSSenior"}]
+  }
+}';
+
+SELECT JSON_VALID(@jsonData) AS VALIDJSON;
