@@ -32,6 +32,7 @@ VALUES (1, "Roopa", "Webex", 600000.986, "2024-09-12", "2024-09-06"),
        (4, "Naresh", "Data analytics", 800000, "2024-09-04", "2024-09-03"),
        (5, "Mallika", "SRE", 500000, "2024-09-30", "2024-09-14"),
        (6, "Nagarjuna", "Webex", 550000, "2024-09-29", "2024-09-30");
+       (7, "Manish", "Consulting", 850000, "2024-09-29", "2024-09-30");
 
 -- Create table from other table (Subtable)
 CREATE TABLE SubTable_employee AS
